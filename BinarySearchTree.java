@@ -36,7 +36,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
     public void insert( AnyType x )
     {
         root = insert( x, root );
-        System.out.println(root.element);
+
     }
 
     /**
@@ -52,23 +52,23 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
      * Find the smallest item in the tree.
      * @return smallest item or null if empty.
      */
-    // public AnyType findMin( )
-    // {
-    //     if( isEmpty( ) )
-    //         throw new UnderflowException( );
-    //     return findMin( root ).element;
-    // }
+    public AnyType findMin( )
+    {
+        if( isEmpty( ) )
+            throw new UnderflowException(null);
+        return findMin( root ).element;
+    }
 
-    // /**
-    //  * Find the largest item in the tree.
-    //  * @return the largest item of null if empty.
-    //  */
-    // public AnyType findMax( )
-    // {
-    //     if( isEmpty( ) )
-    //         throw new UnderflowException( );
-    //     return findMax( root ).element;
-    // }
+    /**
+     * Find the largest item in the tree.
+     * @return the largest item of null if empty.
+     */
+    public AnyType findMax( )
+    {
+        if( isEmpty( ) )
+            throw new UnderflowException(null);
+        return findMax( root ).element;
+    }
 
     /**
      * Find an item in the tree.
@@ -220,6 +220,23 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         }
     }
 
+    public int nodeCount(){
+        return 1 + nodeCount(root);
+    }
+
+    private int nodeCount(BinaryNode<AnyType> t)
+    {
+        if(t == null)
+            return -1;
+
+        if(t.left == null && t.right == null)
+            return 0;
+        
+        int sum_left = 1 + nodeCount(t.left);
+        int sum_right = 1 + nodeCount(t.right);
+        
+        return sum_left + sum_right;
+    }
     /**
      * Internal method to compute height of a subtree.
      * @param t the node that roots the subtree.
@@ -267,8 +284,19 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
 
         System.out.println( "Checking... (no more output means success)" );
 
+        t.insert(10);
         t.insert(5);
+        t.insert(15);
+        t.insert(4);
         t.insert(6);
+        t.insert(7);
+        t.insert(20);
+
+        // t.printTree();
+        int x = t.nodeCount();
+
+        System.out.println("The number of nodes in the tree is: " + x);
+
 
         // for( int i = GAP; i != 0; i = ( i + GAP ) % NUMS )
         //     t.insert( i );
