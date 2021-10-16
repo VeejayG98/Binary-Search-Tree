@@ -263,7 +263,25 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         return true;
     }
 
-    
+    public BinaryNode<AnyType> getRoot(){
+        return root;
+    }
+
+    public boolean compareStructure(BinarySearchTree<AnyType> tree){
+        return compareStructure(root, tree.getRoot());
+    }
+
+    private boolean compareStructure(BinaryNode<AnyType> t1, BinaryNode<AnyType> t2){
+        
+        if(t1 == null && t2 == null)
+            return true;
+        
+        else if(t1 == null || t2 == null)
+            return false;
+        
+        return compareStructure(t1.left, t2.left) && compareStructure(t1.right, t2.right);
+    }
+
     /**
      * Internal method to compute height of a subtree.
      * @param t the node that roots the subtree.
@@ -330,6 +348,25 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
             System.out.println("Tree is Full!");
         else
             System.out.println("Tree is not full!");
+
+        BinarySearchTree<Integer> t2 = new BinarySearchTree<>();
+        
+        t2.remove(7);
+        t2.insert(10);
+        t2.insert(5);
+        t2.insert(15);
+        t2.insert(4);
+        t2.insert(6);
+        t2.insert(20);
+        t2.insert(7);
+        // t2.insert(14);
+        t2.printTree();
+
+        
+        if(t.compareStructure(t2))
+            System.out.println("The trees have the same structure");
+        else   
+            System.out.println("The trees have different structures");
         
         
 
