@@ -272,7 +272,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
     }
 
     private boolean compareStructure(BinaryNode<AnyType> t1, BinaryNode<AnyType> t2){
-        
+
         if(t1 == null && t2 == null)
             return true;
         
@@ -281,6 +281,20 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         
         return compareStructure(t1.left, t2.left) && compareStructure(t1.right, t2.right);
     }
+
+    public boolean equals(BinarySearchTree<AnyType> tree){
+        return equals(root, tree.getRoot());
+    }
+    
+        private boolean equals(BinaryNode<AnyType> t1, BinaryNode<AnyType> t2){
+            if(t1 == null && t2 == null)
+                return true;
+            
+            else if((t1 != null && t2 != null) && (t1.element == t2.element))
+                return equals(t1.left, t2.left) && equals(t1.right, t2.right);
+            
+            return false;
+        }
 
     /**
      * Internal method to compute height of a subtree.
@@ -351,7 +365,6 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
 
         BinarySearchTree<Integer> t2 = new BinarySearchTree<>();
         
-        t2.remove(7);
         t2.insert(10);
         t2.insert(5);
         t2.insert(15);
@@ -359,7 +372,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         t2.insert(6);
         t2.insert(20);
         t2.insert(7);
-        // t2.insert(14);
+        t2.insert(14);
         t2.printTree();
 
         
@@ -367,6 +380,14 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
             System.out.println("The trees have the same structure");
         else   
             System.out.println("The trees have different structures");
+        
+        t2.remove(14);
+        t2.insert(13);
+
+        if(t.equals(t2))
+            System.out.println("The trees are equal");
+        else   
+            System.out.println("The trees are not equal");
         
         
 
