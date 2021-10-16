@@ -237,6 +237,33 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         
         return sum_left + sum_right;
     }
+
+    public boolean isFull(){
+        return isFull(root);
+    }
+
+    private boolean isFull(BinaryNode<AnyType> t){
+        if(t == null)
+            return true;
+        
+        boolean twoChilds = (t.left != null) && (t.right != null);
+        boolean noChilds = (t.left == null) && (t.right == null);
+        if(!(twoChilds || noChilds))
+            return false;
+
+        boolean leftFull = isFull(t.left);
+        if(!leftFull)
+            return false;
+
+        boolean rightFull = isFull(t.right);
+        if(!rightFull)
+            return false;
+        
+        // return (twoChilds || noChilds) && (leftFull && rightFull);
+        return true;
+    }
+
+    
     /**
      * Internal method to compute height of a subtree.
      * @param t the node that roots the subtree.
@@ -289,14 +316,22 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         t.insert(15);
         t.insert(4);
         t.insert(6);
-        t.insert(7);
         t.insert(20);
+        t.insert(7);
+
+        t.insert(14);
 
         // t.printTree();
         int x = t.nodeCount();
 
         System.out.println("The number of nodes in the tree is: " + x);
 
+        if (t.isFull())
+            System.out.println("Tree is Full!");
+        else
+            System.out.println("Tree is not full!");
+        
+        
 
         // for( int i = GAP; i != 0; i = ( i + GAP ) % NUMS )
         //     t.insert( i );
