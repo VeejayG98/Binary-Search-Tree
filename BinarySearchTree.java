@@ -342,6 +342,59 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
             return false;
         }
 
+        public void rotateLeft(AnyType key){
+            root = rotateLeft(key, root);
+        }
+
+        private BinaryNode<AnyType> rotateLeft(AnyType key, BinaryNode<AnyType> node){
+            if(node == null)
+                return node;
+
+            int compareResult = key.compareTo(node.element);
+            if(compareResult < 0)
+                node.left = rotateLeft(key, node.left);
+            else if(compareResult > 0)
+                node.right = rotateLeft(key, node.right);
+            
+            else{
+                BinaryNode<AnyType> right = node.right;
+                BinaryNode<AnyType> right_l = right.left;
+
+                right.left = node;
+                node.right = right_l;
+
+                return right;
+            }
+
+            return node;
+        }
+
+        public void rotateRight(AnyType key){
+            root = rotateRight(key, root);
+        }
+
+        private BinaryNode<AnyType> rotateRight(AnyType key, BinaryNode<AnyType> node){
+            if(node == null)
+                return node;
+            
+            int compareResult = key.compareTo(node.element);
+            if(compareResult < 0)
+                node.left = rotateRight(key, node.left);
+            else if(compareResult > 0)
+                node.right = rotateRight(key, node.right);
+            
+            else{
+                BinaryNode<AnyType> left = node.left;
+                BinaryNode<AnyType> left_r = left.right;
+
+                left.right = node;
+                node.left = left_r;
+
+                return left;
+            }
+
+            return node;
+        }
             // return new_node;
     /**
      * Internal method to compute height of a subtree.
@@ -455,6 +508,21 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
             System.out.println("The trees are mirrors");
         else   
             System.out.println("The trees are not mirrors");
+
+        System.out.println("Rotate Left:");
+        t3.rotateLeft(10);
+        t3.printTree();
+
+        BinaryNode<Integer> temp = t3.getRoot();
+        System.out.println(temp.element + " " + temp.left.element + " " + temp.right.element);
+
+        System.out.println("Rotate Right:");
+        t3.rotateRight(15);
+        t3.printTree();
+
+        temp = t3.getRoot();
+        System.out.println(temp.element + " " + temp.left.element + " " + temp.right.element);
+
 
 
         
