@@ -326,6 +326,22 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
             // new_node.left = copy(node.left, new_node.left);
             // new_node.right = copy(node.right, new_node.right);
 
+        private boolean isMirror(BinarySearchTree<AnyType> mirror){
+            return isMirror(root, mirror.root);
+        }
+
+        public boolean isMirror(BinaryNode<AnyType> node, BinaryNode<AnyType> mirror_node){
+
+            if(node == null && mirror_node == null)
+                return true;
+            
+                
+            else if((node != null && mirror_node != null) && (node.element == mirror_node.element))
+                return isMirror(node.left, mirror_node.right) && isMirror(node.right, mirror_node.left);
+            
+            return false;
+        }
+
             // return new_node;
     /**
      * Internal method to compute height of a subtree.
@@ -434,6 +450,12 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
             System.out.println("The trees are equal");
         else   
             System.out.println("The trees are not equal");
+
+        if(t.isMirror(t4))
+            System.out.println("The trees are mirrors");
+        else   
+            System.out.println("The trees are not mirrors");
+
 
         
 
