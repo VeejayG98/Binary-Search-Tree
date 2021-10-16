@@ -296,6 +296,37 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
             return false;
         }
 
+        private BinarySearchTree<AnyType> copy(){
+            BinarySearchTree<AnyType> new_tree = new BinarySearchTree<>();
+            new_tree.root = copy(root);
+            return new_tree;
+        }
+
+        public BinaryNode<AnyType> copy(BinaryNode<AnyType> node){
+            
+            if(node == null)
+                return null;
+
+            return new BinaryNode<AnyType>(node.element, copy(node.left), copy(node.right));
+        }
+
+        private BinarySearchTree<AnyType> mirror(){
+            BinarySearchTree<AnyType> mirror_tree = new BinarySearchTree<>();
+            mirror_tree.root = mirror(root);
+            return mirror_tree;
+        }
+
+        public BinaryNode<AnyType> mirror(BinaryNode<AnyType> node){
+            if(node == null)
+                return null;
+            
+            return new BinaryNode<AnyType>(node.element, mirror(node.right), mirror(node.left));
+        }
+            // new_node = new BinaryNode<AnyType>(node.element,copy(node.left, new_node.left), copy(node.right, new_node.right);       
+            // new_node.left = copy(node.left, new_node.left);
+            // new_node.right = copy(node.right, new_node.right);
+
+            // return new_node;
     /**
      * Internal method to compute height of a subtree.
      * @param t the node that roots the subtree.
@@ -388,7 +419,22 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
             System.out.println("The trees are equal");
         else   
             System.out.println("The trees are not equal");
+
         
+        BinarySearchTree<Integer> t3 = t.copy();
+
+        System.out.println("Copied tree:");
+        t3.printTree();
+
+        System.out.println("Mirrored tree:");
+        BinarySearchTree<Integer> t4 = t.mirror();
+        t4.printTree();
+
+        if(t.equals(t3))
+            System.out.println("The trees are equal");
+        else   
+            System.out.println("The trees are not equal");
+
         
 
         // for( int i = GAP; i != 0; i = ( i + GAP ) % NUMS )
