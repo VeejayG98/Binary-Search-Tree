@@ -1,3 +1,8 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
+import org.w3c.dom.Node;
+
 // BinarySearchTree class
 //
 // CONSTRUCTION: with no initializer
@@ -286,115 +291,149 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         return equals(root, tree.getRoot());
     }
     
-        private boolean equals(BinaryNode<AnyType> t1, BinaryNode<AnyType> t2){
-            if(t1 == null && t2 == null)
-                return true;
+    private boolean equals(BinaryNode<AnyType> t1, BinaryNode<AnyType> t2){
+        if(t1 == null && t2 == null)
+            return true;
+        
+        else if((t1 != null && t2 != null) && (t1.element == t2.element))
+            return equals(t1.left, t2.left) && equals(t1.right, t2.right);
+        
+        return false;
+    }
+
+    private BinarySearchTree<AnyType> copy(){
+        BinarySearchTree<AnyType> new_tree = new BinarySearchTree<>();
+        new_tree.root = copy(root);
+        return new_tree;
+    }
+
+    public BinaryNode<AnyType> copy(BinaryNode<AnyType> node){
+        
+        if(node == null)
+            return null;
+
+        return new BinaryNode<AnyType>(node.element, copy(node.left), copy(node.right));
+    }
+
+    private BinarySearchTree<AnyType> mirror(){
+        BinarySearchTree<AnyType> mirror_tree = new BinarySearchTree<>();
+        mirror_tree.root = mirror(root);
+        return mirror_tree;
+    }
+
+    public BinaryNode<AnyType> mirror(BinaryNode<AnyType> node){
+        if(node == null)
+            return null;
+        
+        return new BinaryNode<AnyType>(node.element, mirror(node.right), mirror(node.left));
+    }
+        // new_node = new BinaryNode<AnyType>(node.element,copy(node.left, new_node.left), copy(node.right, new_node.right);       
+        // new_node.left = copy(node.left, new_node.left);
+        // new_node.right = copy(node.right, new_node.right);
+
+    private boolean isMirror(BinarySearchTree<AnyType> mirror){
+        return isMirror(root, mirror.root);
+    }
+
+    public boolean isMirror(BinaryNode<AnyType> node, BinaryNode<AnyType> mirror_node){
+
+        if(node == null && mirror_node == null)
+            return true;
+        
             
-            else if((t1 != null && t2 != null) && (t1.element == t2.element))
-                return equals(t1.left, t2.left) && equals(t1.right, t2.right);
-            
-            return false;
+        else if((node != null && mirror_node != null) && (node.element == mirror_node.element))
+            return isMirror(node.left, mirror_node.right) && isMirror(node.right, mirror_node.left);
+        
+        return false;
+    }
+
+    public void rotateLeft(AnyType key){
+        root = rotateLeft(key, root);
+    }
+
+    private BinaryNode<AnyType> rotateLeft(AnyType key, BinaryNode<AnyType> node){
+        if(node == null)
+            return node;
+
+        int compareResult = key.compareTo(node.element);
+        if(compareResult < 0)
+            node.left = rotateLeft(key, node.left);
+        else if(compareResult > 0)
+            node.right = rotateLeft(key, node.right);
+        
+        else{
+            BinaryNode<AnyType> right = node.right;
+            BinaryNode<AnyType> right_l = right.left;
+
+            right.left = node;
+            node.right = right_l;
+
+            return right;
         }
 
-        private BinarySearchTree<AnyType> copy(){
-            BinarySearchTree<AnyType> new_tree = new BinarySearchTree<>();
-            new_tree.root = copy(root);
-            return new_tree;
+        return node;
+    }
+
+    public void rotateRight(AnyType key){
+        root = rotateRight(key, root);
+    }
+
+    private BinaryNode<AnyType> rotateRight(AnyType key, BinaryNode<AnyType> node){
+        if(node == null)
+            return node;
+        
+        int compareResult = key.compareTo(node.element);
+        if(compareResult < 0)
+            node.left = rotateRight(key, node.left);
+        else if(compareResult > 0)
+            node.right = rotateRight(key, node.right);
+        
+        else{
+            BinaryNode<AnyType> left = node.left;
+            BinaryNode<AnyType> left_r = left.right;
+
+            left.right = node;
+            node.left = left_r;
+
+            return left;
         }
 
-        public BinaryNode<AnyType> copy(BinaryNode<AnyType> node){
-            
-            if(node == null)
-                return null;
+        return node;
+    }
 
-            return new BinaryNode<AnyType>(node.element, copy(node.left), copy(node.right));
-        }
+    public void printLevels(){
+        this.printLevels(root);
+    }
 
-        private BinarySearchTree<AnyType> mirror(){
-            BinarySearchTree<AnyType> mirror_tree = new BinarySearchTree<>();
-            mirror_tree.root = mirror(root);
-            return mirror_tree;
-        }
+    private void printLevels(BinaryNode<AnyType> root){
 
-        public BinaryNode<AnyType> mirror(BinaryNode<AnyType> node){
-            if(node == null)
-                return null;
-            
-            return new BinaryNode<AnyType>(node.element, mirror(node.right), mirror(node.left));
-        }
-            // new_node = new BinaryNode<AnyType>(node.element,copy(node.left, new_node.left), copy(node.right, new_node.right);       
-            // new_node.left = copy(node.left, new_node.left);
-            // new_node.right = copy(node.right, new_node.right);
+        Queue<BinaryNode> q = new LinkedList<>();
+        q.add(root);
 
-        private boolean isMirror(BinarySearchTree<AnyType> mirror){
-            return isMirror(root, mirror.root);
-        }
+        while(true){
 
-        public boolean isMirror(BinaryNode<AnyType> node, BinaryNode<AnyType> mirror_node){
+            int count = q.size();
+            if(count == 0)
+                break;
 
-            if(node == null && mirror_node == null)
-                return true;
-            
+            while(count > 0){
+                BinaryNode<AnyType> temp = q.peek();
+                System.out.print(temp.element + " ");
+                q.remove();
+
+                if(temp.left != null)
+                    q.add(temp.left);
                 
-            else if((node != null && mirror_node != null) && (node.element == mirror_node.element))
-                return isMirror(node.left, mirror_node.right) && isMirror(node.right, mirror_node.left);
-            
-            return false;
-        }
+                if(temp.right != null)
+                    q.add(temp.right);
 
-        public void rotateLeft(AnyType key){
-            root = rotateLeft(key, root);
-        }
-
-        private BinaryNode<AnyType> rotateLeft(AnyType key, BinaryNode<AnyType> node){
-            if(node == null)
-                return node;
-
-            int compareResult = key.compareTo(node.element);
-            if(compareResult < 0)
-                node.left = rotateLeft(key, node.left);
-            else if(compareResult > 0)
-                node.right = rotateLeft(key, node.right);
-            
-            else{
-                BinaryNode<AnyType> right = node.right;
-                BinaryNode<AnyType> right_l = right.left;
-
-                right.left = node;
-                node.right = right_l;
-
-                return right;
+                count--;
             }
+            System.out.println();
 
-            return node;
-        }
-
-        public void rotateRight(AnyType key){
-            root = rotateRight(key, root);
-        }
-
-        private BinaryNode<AnyType> rotateRight(AnyType key, BinaryNode<AnyType> node){
-            if(node == null)
-                return node;
             
-            int compareResult = key.compareTo(node.element);
-            if(compareResult < 0)
-                node.left = rotateRight(key, node.left);
-            else if(compareResult > 0)
-                node.right = rotateRight(key, node.right);
-            
-            else{
-                BinaryNode<AnyType> left = node.left;
-                BinaryNode<AnyType> left_r = left.right;
-
-                left.right = node;
-                node.left = left_r;
-
-                return left;
-            }
-
-            return node;
         }
+    }
             // return new_node;
     /**
      * Internal method to compute height of a subtree.
@@ -522,6 +561,10 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
 
         temp = t3.getRoot();
         System.out.println(temp.element + " " + temp.left.element + " " + temp.right.element);
+
+        System.out.println("Level Printing: ");
+        t.printLevels();
+        
 
 
 
