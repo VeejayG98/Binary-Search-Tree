@@ -224,11 +224,18 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
             printTree( t.right );
         }
     }
-
+    /**
+     * Method to get the number of nodes in the tree
+     * @return number of nodes in the tree
+     */
     public int nodeCount(){
         return 1 + nodeCount(root);
     }
-
+    /**
+     * Internal method to count the number of nodes in the subtree
+     * @param t the node that roots the subtree
+     * @return number of nodes in the subtree
+     */
     private int nodeCount(BinaryNode<AnyType> t)
     {
         if(t == null)
@@ -243,10 +250,19 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         return sum_left + sum_right;
     }
 
+    /**
+     * Check if the given tree is a Full BST or not
+     * @return true if tree is a full tree
+     */
     public boolean isFull(){
         return isFull(root);
     }
 
+    /**
+     * Internal method to check if the subtree is a full tree or not
+     * @param t the node that roots the subtree
+     * @return true if the subtree is a full tree
+     */
     private boolean isFull(BinaryNode<AnyType> t){
         if(t == null)
             return true;
@@ -268,14 +284,29 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         return true;
     }
 
+    /**
+     * Gets the root of the Binary Tree
+     * @return root of the tree
+     */
     public BinaryNode<AnyType> getRoot(){
         return root;
     }
 
+    /**
+     * Compares the structure of two trees
+     * @param tree the tree to compare with
+     * @return true if the two trees have the same structure
+     */
     public boolean compareStructure(BinarySearchTree<AnyType> tree){
         return compareStructure(root, tree.getRoot());
     }
 
+    /**
+     * Internal method that compares the structure of the two subtrees
+     * @param t1 node that roots the subtree of the first tree
+     * @param t2 node that roots the subtree of the second tree
+     * @return true if the two subtrees have the same structure
+     */
     private boolean compareStructure(BinaryNode<AnyType> t1, BinaryNode<AnyType> t2){
 
         if(t1 == null && t2 == null)
@@ -287,10 +318,21 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         return compareStructure(t1.left, t2.left) && compareStructure(t1.right, t2.right);
     }
 
+    /**
+     * Checks if the two trees are equal
+     * @param tree the tree to compare with
+     * @return true if the two trees are equal
+     */
     public boolean equals(BinarySearchTree<AnyType> tree){
         return equals(root, tree.getRoot());
     }
     
+    /**
+     * Internal method to check if the two subtrees are equal
+     * @param t1 the node that roots the subtree of the first tree
+     * @param t2 the node that roots the subtree of the second tree
+     * @return true if the two subtrees are equal
+     */
     private boolean equals(BinaryNode<AnyType> t1, BinaryNode<AnyType> t2){
         if(t1 == null && t2 == null)
             return true;
@@ -301,13 +343,22 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         return false;
     }
 
-    private BinarySearchTree<AnyType> copy(){
+    /**
+     * Makes a copy of the given tree
+     * @return a copy of the binary tree
+     */
+    public BinarySearchTree<AnyType> copy(){
         BinarySearchTree<AnyType> new_tree = new BinarySearchTree<>();
         new_tree.root = copy(root);
         return new_tree;
     }
 
-    public BinaryNode<AnyType> copy(BinaryNode<AnyType> node){
+    /**
+     * Internal method that makes a copy of the subtree
+     * @param node node that roots the subtree
+     * @return copy of the subtree
+     */
+    private BinaryNode<AnyType> copy(BinaryNode<AnyType> node){
         
         if(node == null)
             return null;
@@ -315,13 +366,22 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         return new BinaryNode<AnyType>(node.element, copy(node.left), copy(node.right));
     }
 
-    private BinarySearchTree<AnyType> mirror(){
+    /**
+     * Makes a mirror of the given tree
+     * @return a mirror of the tree
+     */
+    public BinarySearchTree<AnyType> mirror(){
         BinarySearchTree<AnyType> mirror_tree = new BinarySearchTree<>();
         mirror_tree.root = mirror(root);
         return mirror_tree;
     }
 
-    public BinaryNode<AnyType> mirror(BinaryNode<AnyType> node){
+    /**
+     * Internal method that makes a mirror of the subtree
+     * @param node node that roots the subtree
+     * @return mirror of the subtree
+     */
+    private BinaryNode<AnyType> mirror(BinaryNode<AnyType> node){
         if(node == null)
             return null;
         
@@ -331,11 +391,22 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         // new_node.left = copy(node.left, new_node.left);
         // new_node.right = copy(node.right, new_node.right);
 
-    private boolean isMirror(BinarySearchTree<AnyType> mirror){
+    /**
+     * Checks if the two trees are mirrors of each other
+     * @param mirror the tree to check if it is it's mirror
+     * @return true if the two trees are mirrors of each other
+     */
+    public boolean isMirror(BinarySearchTree<AnyType> mirror){
         return isMirror(root, mirror.root);
     }
 
-    public boolean isMirror(BinaryNode<AnyType> node, BinaryNode<AnyType> mirror_node){
+    /**
+     * 
+     * @param node
+     * @param mirror_node
+     * @return
+     */
+    private boolean isMirror(BinaryNode<AnyType> node, BinaryNode<AnyType> mirror_node){
 
         if(node == null && mirror_node == null)
             return true;
@@ -347,10 +418,20 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         return false;
     }
 
+    /**
+     * rotates the given node to the left
+     * @param key the value of the node to rotate left
+     */
     public void rotateLeft(AnyType key){
         root = rotateLeft(key, root);
     }
 
+    /**
+     * Internal method to rotate a given node to the left
+     * @param key the value of the node
+     * @param node the node that roots the subtree
+     * @return the new root of the subtree
+     */
     private BinaryNode<AnyType> rotateLeft(AnyType key, BinaryNode<AnyType> node){
         if(node == null)
             return node;
@@ -374,10 +455,20 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         return node;
     }
 
+    /**
+     * rotates the given node to the right
+     * @param key the value of the node to rotate right
+     */
     public void rotateRight(AnyType key){
         root = rotateRight(key, root);
     }
 
+    /**
+     * Internal method to rotate a given node to the right
+     * @param key the value of the node
+     * @param node the node that roots the subtree
+     * @return the new root of the subtree
+     */
     private BinaryNode<AnyType> rotateRight(AnyType key, BinaryNode<AnyType> node){
         if(node == null)
             return node;
@@ -401,13 +492,20 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         return node;
     }
 
+    /**
+     * Prints the tree in level-order
+     */
     public void printLevels(){
         this.printLevels(root);
     }
 
+    /**
+     * Internal method to perform level-order printing of the binary tree
+     * @param root root of the binary tree
+     */
     private void printLevels(BinaryNode<AnyType> root){
 
-        Queue<BinaryNode> q = new LinkedList<>();
+        Queue<BinaryNode<AnyType>> q = new LinkedList<>();
         q.add(root);
 
         while(true){
@@ -434,7 +532,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
             
         }
     }
-            // return new_node;
+
     /**
      * Internal method to compute height of a subtree.
      * @param t the node that roots the subtree.
@@ -482,6 +580,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
 
         System.out.println( "Checking... (no more output means success)" );
 
+        // Creating a binary tree
         t.insert(10);
         t.insert(5);
         t.insert(15);
@@ -492,16 +591,16 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
 
         t.insert(14);
 
-        // t.printTree();
-        int x = t.nodeCount();
+        // Testing the nodeCount method
+        System.out.println("The number of nodes in the tree is: " + t.nodeCount());
 
-        System.out.println("The number of nodes in the tree is: " + x);
-
+        // Testing the isFull method
         if (t.isFull())
             System.out.println("Tree is Full!");
         else
             System.out.println("Tree is not full!");
 
+        // Creating a new binary tree
         BinarySearchTree<Integer> t2 = new BinarySearchTree<>();
         
         t2.insert(10);
@@ -514,7 +613,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         t2.insert(14);
         t2.printTree();
 
-        
+        // Testing the compareStructure method
         if(t.compareStructure(t2))
             System.out.println("The trees have the same structure");
         else   
@@ -523,19 +622,21 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         t2.remove(14);
         t2.insert(13);
 
+        // Testing the equals method
         if(t.equals(t2))
             System.out.println("The trees are equal");
         else   
             System.out.println("The trees are not equal");
 
-        
+        // Testing the copy method
         BinarySearchTree<Integer> t3 = t.copy();
 
         System.out.println("Copied tree:");
         t3.printTree();
 
-        System.out.println("Mirrored tree:");
+        // Testing the mirror method
         BinarySearchTree<Integer> t4 = t.mirror();
+        System.out.println("Mirrored tree:");
         t4.printTree();
 
         if(t.equals(t3))
@@ -543,52 +644,25 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         else   
             System.out.println("The trees are not equal");
 
+        // Testing the isMirror method
         if(t.isMirror(t4))
             System.out.println("The trees are mirrors");
         else   
             System.out.println("The trees are not mirrors");
 
+        // Testing the rotateLeft method
         System.out.println("Rotate Left:");
-        t3.rotateLeft(10);
+        t3.rotateLeft(15);
         t3.printTree();
 
-        BinaryNode<Integer> temp = t3.getRoot();
-        System.out.println(temp.element + " " + temp.left.element + " " + temp.right.element);
-
+        // Testing the rotateRight method
         System.out.println("Rotate Right:");
         t3.rotateRight(15);
         t3.printTree();
 
-        temp = t3.getRoot();
-        System.out.println(temp.element + " " + temp.left.element + " " + temp.right.element);
-
+        // Testing the printLevels method
         System.out.println("Level Printing: ");
         t.printLevels();
-        
-
-
-
-        
-
-        // for( int i = GAP; i != 0; i = ( i + GAP ) % NUMS )
-        //     t.insert( i );
-
-        // for( int i = 1; i < NUMS; i+= 2 )
-        //     t.remove( i );
-
-        // // if( NUMS < 40 )
-        // //     t.printTree( );
-        // // if( t.findMin( ) != 2 || t.findMax( ) != NUMS - 2 )
-        // //     System.out.println( "FindMin or FindMax error!" );
-
-        // for( int i = 2; i < NUMS; i+=2 )
-        //      if( !t.contains( i ) )
-        //          System.out.println( "Find error1!" );
-
-        // for( int i = 1; i < NUMS; i+=2 )
-        // {
-        //     if( t.contains( i ) )
-        //         System.out.println( "Find error2!" );
-        // }
+    
     }
 }
